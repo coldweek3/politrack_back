@@ -7,13 +7,13 @@ class Community(models.Model):
     community_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
     content = models.TextField(max_length=300)
-    created_at = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateTimeField(default=timezone.now()+timezone.timedelta(days=7),editable=False)
-
+    created_at = models.DateTimeField()
+    deadline = models.DateTimeField()
+ 
 
 class Board(models.Model):
     board_id = models.AutoField(primary_key=True)
-    community = models.ForeignKey(Community, related_name='board', blank=False, null=False, on_delete=models.CASCADE)
+    community_id = models.ForeignKey(Community, related_name='board', blank=False, null=False, on_delete=models.CASCADE)
     #user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     idea_a = models.TextField(max_length=300,blank=True)
     idea_b = models.TextField(max_length=300,blank=True)
@@ -28,14 +28,23 @@ class Board(models.Model):
         ('option3', 'Option3'),
     ]
     pick = models.CharField(max_length=10, choices=PICK_CHOICES,blank=True)
+    comment = models.TextField(max_length=300,blank=True)
     
 
 
 class Opinion(models.Model):
     opinion_id = models.AutoField(primary_key=True)
-    community = models.ForeignKey(Community, related_name='opinion', blank=False, null=False, on_delete=models.CASCADE, default=3)
+    community_id = models.OneToOneField(Community, related_name='opinion', blank=False, null=False, on_delete=models.CASCADE)
     #user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    comment = models.TextField(max_length=300,blank=False)
+    title_1 = models.CharField(max_length=100, blank=True)
+    title_2 = models.CharField(max_length=100, blank=True)
+    opinionresult_a = models.TextField(max_length=300,blank=True)
+    opinionresult_b = models.TextField(max_length=300,blank=True)
+    opinionresult_c = models.TextField(max_length=300,blank=True)
+    opinionresult_d = models.TextField(max_length=300,blank=True)
+    opinionresult_e = models.TextField(max_length=300,blank=True)
+
+
 
 
 class Quiz(models.Model):
